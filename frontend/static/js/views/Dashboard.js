@@ -57,7 +57,7 @@ export default class extends AbstractView {
         <img src=${el.image} alt='img_${i}'/>
         <h2>${el.name}</h2>
         ${el.description}
-        <div class='episodesWrapper'>
+        <div>
         ${el.episodes.map(
           (el) =>
             `<a href='/episodes/${el.id}' data-link>Episode:${el.name}</a>`
