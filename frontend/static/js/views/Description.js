@@ -20,18 +20,20 @@ export default class extends AbstractView {
       let showsOutput = "";
 
       showsOutput = `
-            <div>
+            <li class='list'>
               <img src=${results.image.medium} alt='img'/>
               <h2>${results.name}</h2>
               ${results.summary}
-            </div>
+            </li>
         `;
       list.innerHTML = showsOutput;
     };
 
     return `
-            <h1>Episode Information </h1>
-            <div id='episodeInformation'></div>
+            <div class='searchWrapper'>
+              <h1>Episode Information </h1>
+              <ul id='episodeInformation'></ul>
+            </div>
         `;
   }
 }

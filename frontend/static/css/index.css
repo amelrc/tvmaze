@@ -1,3 +1,8 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
 body {
   font-family: "Poppins", sans-serif;
 }
@@ -27,8 +32,14 @@ body {
   border: 1px solid #5cb85c;
 }
 
-ul {
+#resultsList {
   list-style-type: none;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  margin: 8px;
 }
 a {
   text-decoration: none;
@@ -37,4 +48,16 @@ a {
 }
 a:hover {
   color: #5cb85c;
+}
+
+@media only screen and (min-width: 687px) {
+  #resultsList {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .list {
+    max-width: 25%;
+    padding: 16px;
+  }
 }

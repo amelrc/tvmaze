@@ -7,53 +7,42 @@ export default class extends AbstractView {
   }
 
   async getHtml() {
-    const findShow = async (query) => {
+    const findShow = (query) => {
       let object = [];
 
       const url = `https://api.tvmaze.com/search/shows?q=${query}`;
 
-      const shows = await fetch(url).then((response) => response.json());
-
-      shows.map((el, i) => {
-        const episodesUrl = `https://api.tvmaze.com/shows/${el.show.id}/episodes`;
-        fetch(episodesUrl)
-          .then((response) => response.json())
-          .then((data) => {
-            object.push({
-              image: el.show.image.medium,
-              name: el.show.name,
-              description: el.show.summary,
-              episodes: data,
-            });
-
-            showsResult(object);
+      fetch(url)
+        .then((response) => response.json())
+        .then((data) => {
+          data.map((el, i) => {
+            const episodesUrl = `https://api.tvmaze.com/shows/${el.show.id}/episodes`;
+            fetch(episodesUrl)
+              .then((response) => response.json())
+              .then((data) => {
+                object.push({
+                  image: el.show.image.medium,
+                  name: el.show.name,
+                  description: el.show.summary,
+                  episodes: data,
+                });
+                showsResult(object);
+              });
           });
-      });
-    };
-
-    let timeout = 0;
-    window.onload = () => {
-      const searchShow = document.getElementById("searchShow");
-      searchShow.onkeyup = () => {
-        clearTimeout(timeout);
-        if (searchShow.value.trim().length === 0) {
-          return;
-        }
-        timeout = setTimeout(() => {
-          findShow(searchShow.value);
-        }, 250);
-
-        findShow(searchShow.value);
-      };
+        })
+        .catch((er) => {
+          console.log(er);
+        });
     };
 
     const showsResult = (shows) => {
       const resultList = document.getElementById("resultsList");
-
-      let showInfo = "";
+      resultList.innerHTML = "";
+      const node = document.createElement("li");
+      node.className = "list";
 
       shows.map((el, i) => {
-        showInfo += `
+        let showInfo = `
         <img src=${el.image} alt='img_${i}'/>
         <h2>${el.name}</h2>
         ${el.description}
@@ -63,8 +52,16 @@ export default class extends AbstractView {
             `<a href='/episodes/${el.id}' data-link>Episode:${el.name}</a>`
         )}
         </div>`;
+        node.innerHTML = showInfo;
       });
-      resultList.innerHTML = showInfo;
+      resultList.appendChild(node);
+    };
+
+    window.onload = () => {
+      const searchShow = document.getElementById("searchShow");
+      searchShow.onkeyup = () => {
+        findShow(searchShow.value);
+      };
     };
 
     return `
@@ -72,9 +69,7 @@ export default class extends AbstractView {
             <h1>Search Movies!</h1>
             <input id="searchShow" placeholder="Type for search" type="text" />
           </div>
-            <ul>
-              <li id="resultsList"></li>
-            </ul>
+          <ul id="resultsList"></ul>
         `;
   }
 }
