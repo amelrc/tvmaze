@@ -57,21 +57,23 @@ export default class extends AbstractView {
         <img src=${el.image} alt='img_${i}'/>
         <h2>${el.name}</h2>
         ${el.description}
+        <div class='episodesWrapper'>
         ${el.episodes.map(
           (el) =>
-            `<a href='/episodes/${el.id}' data-link>Episode: ${el.name}</a>`
-        )}`;
+            `<a href='/episodes/${el.id}' data-link>Episode:${el.name}</a>`
+        )}
+        </div>`;
       });
       resultList.innerHTML = showInfo;
     };
 
     return `
+          <div class='searchWrapper'>
             <h1>Search Movies!</h1>
             <input id="searchShow" placeholder="Type for search" type="text" />
+          </div>
             <ul>
-              <li>
-                <div id="resultsList"></div>
-              </li>
+              <li id="resultsList"></li>
             </ul>
         `;
   }

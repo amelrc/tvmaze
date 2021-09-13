@@ -17,7 +17,6 @@ export default class extends AbstractView {
 
     const details = (results) => {
       const list = document.getElementById("episodeInformation");
-      // list.innerHTML = "";
       let showsOutput = "";
 
       showsOutput = `
