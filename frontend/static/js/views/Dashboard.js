@@ -7,8 +7,9 @@ export default class extends AbstractView {
   }
 
   async getHtml() {
+    /* Makes a two call to get to get shows and episodes */
     const findShow = (query) => {
-      let object = [];
+      let dataTogether = [];
 
       const url = `https://api.tvmaze.com/search/shows?q=${query}`;
 
@@ -20,13 +21,13 @@ export default class extends AbstractView {
             fetch(episodesUrl)
               .then((response) => response.json())
               .then((data) => {
-                object.push({
+                dataTogether.push({
                   image: el.show.image.medium,
                   name: el.show.name,
                   description: el.show.summary,
                   episodes: data,
                 });
-                showsResult(object);
+                showsResult(dataTogether);
               });
           });
         })
@@ -34,7 +35,7 @@ export default class extends AbstractView {
           console.log(er);
         });
     };
-
+    /* Displays the data from shows and episodes */
     const showsResult = (shows) => {
       const resultList = document.getElementById("resultsList");
       resultList.innerHTML = "";
@@ -56,7 +57,7 @@ export default class extends AbstractView {
       });
       resultList.appendChild(node);
     };
-
+    /* Gets the input value from the dom */
     window.onload = () => {
       const searchShow = document.getElementById("searchShow");
       searchShow.onkeyup = () => {

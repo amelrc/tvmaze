@@ -1,9 +1,11 @@
 import Dashboard from "./views/Dashboard.js";
 import Description from "./views/Description.js";
 
+/* Converts to regular expression */
 const pathToRegex = (path) =>
   new RegExp("^" + path.replace(/\//g, "\\/").replace(/:\w+/g, "(.+)") + "$");
 
+/* Matches the route */
 const getParams = (match) => {
   const values = match.result.slice(1);
   const keys = Array.from(match.route.path.matchAll(/:(\w+)/g)).map(
@@ -16,19 +18,19 @@ const getParams = (match) => {
     })
   );
 };
-
+/* Navigates to route */
 const navigateTo = (url) => {
   history.pushState(null, null, url);
   router();
 };
-
+/* Display pages */
 const router = async () => {
   const routes = [
     { path: "/", view: Dashboard },
     { path: "/episodes/:id", view: Description },
   ];
 
-  // Test each route for potential match
+  /* Test each route for potential match */
   const potentialMatches = routes.map((route) => {
     return {
       route: route,

@@ -7,6 +7,7 @@ export default class extends AbstractView {
   }
 
   async getHtml() {
+    /* Makes a third call to get episodes description */
     const url = `https://api.tvmaze.com${window.location.pathname}`;
     fetch(url)
       .then((response) => response.json())
@@ -15,6 +16,7 @@ export default class extends AbstractView {
         console.log(er);
       });
 
+    /* Displays description data */
     const details = (results) => {
       const list = document.getElementById("episodeInformation");
       let showsOutput = "";
